@@ -1,0 +1,115 @@
+#include <stdio.h>
+#include <time.h>
+#include <stdlib.h>
+#define M 10
+
+int VariableArray [ M ], TenWinningNumbers [ M ];
+
+int Selection ( int Counter, int CurrentNumber ) ;
+
+int main ( void ) {
+    printf  ( "Hello, this program will help you to play the lottery.\n"
+    "We will need:\n"
+    "1) 10 numbers 1...32 each which we will call 'winning numbers';\n" 
+    "2) Number of tickets participating in the lottery 1...1000 range;\n"
+    "3) 6 numbers 1...32 range for each ticket.\n"
+    "Results you will get:\n"
+    "'Lucky' for winning tickets(which contain 3 or more matches with the numbers out of 10 obtained in step 2)\n"
+    "and 'Unlucky' for losing(2 or less matches).\n\n" ) ;
+    int WinLoseIndicator,  CurrentNumber, Counter = 0, Counter1, TicketCounter, CurrentTicketNumber ;
+    Counter = 0 ;
+    printf("Enter 10 numbers in 1-32 range\n");
+    while ( Counter < 10 ) {
+        do {
+            scanf ( "%d", &CurrentNumber ) ;
+            if ( CurrentNumber < 1 || CurrentNumber > 32 ) {
+                printf ( "There is a number which is out of range 'more 1 and less 32', try again...\n" ) ;
+            }
+        }
+        while ( CurrentNumber < 1 || CurrentNumber > 32 ) ;
+        if ( Counter == 0 ) {
+            VariableArray [ Counter ] = CurrentNumber ;
+            Counter = Counter + 1 ;
+        }
+        else {
+            Counter = Selection ( Counter, CurrentNumber ) ;
+        }
+    }
+    for ( Counter = 0 ; Counter < 10 ; Counter++ ) {
+        TenWinningNumbers [ Counter ] = VariableArray [ Counter ] ;
+    }
+    if ( CurrentNumber == 0 ) {
+        exit ( CurrentNumber = 0 ) ;
+    }
+    do {
+        printf("Enter tickets quantity in 1-1000 range\n");
+        scanf ( "%d", &CurrentNumber ) ;
+        if ( CurrentNumber < 1 || CurrentNumber > 1000 ) {
+            printf ( "There is a number which is out of range 'more 1 less 1000, try again...\n" ) ;
+        }
+    }
+    while ( CurrentNumber < 1 || CurrentNumber > 1000 ) ;
+    if ( CurrentNumber == 0 ) {
+        exit ( CurrentNumber = 0 ) ;
+    }
+        TicketCounter = CurrentNumber ;
+        CurrentTicketNumber = 0 ;
+        while ( CurrentTicketNumber < TicketCounter ) {
+            WinLoseIndicator = 0 ;
+            Counter = 0 ;
+            printf("Pick 6 numbers in 1-32 range for ticket #%d\n", CurrentTicketNumber+1);
+            while ( Counter < 6 ) {
+                do {
+                    scanf ( "%d", &CurrentNumber ) ;
+                    if ( CurrentNumber < 1 || CurrentNumber > 32 ) {
+                        printf ( "There is a number which is out of range 'more 1 and less 32', try again...\n" ) ;
+                    }
+                }
+                while ( CurrentNumber < 1 || CurrentNumber > 32 ) ;
+                    if ( Counter == 0 ) {
+                        VariableArray [ Counter ] = CurrentNumber ;
+                        Counter = Counter + 1 ;
+                    }
+                    else {
+                        Counter = Selection ( Counter, CurrentNumber ) ;
+                    }
+                    for ( Counter1 = 0 ; Counter1 < 10 ; Counter1++ ) {
+                        if ( TenWinningNumbers [ Counter1 ] == CurrentNumber ) {
+                            WinLoseIndicator = WinLoseIndicator + 1 ;
+                        break ;
+                        }
+                    }
+            }
+                if ( CurrentNumber == 0 )
+                break ;
+                if ( WinLoseIndicator >= 3 )
+                {   
+                    printf ( "Lucky\n" ) ;
+                }
+                else if ( WinLoseIndicator < 3 )
+                {   
+                    printf ( "Unlucky\n" ) ;
+                }
+            CurrentTicketNumber = CurrentTicketNumber + 1 ;
+        }
+    return 0 ;
+}
+
+int Selection ( Counter, CurrentNumber ) {
+    int DifferentNumbersCounter, Counter1 ;
+    DifferentNumbersCounter = 0 ;
+    for ( Counter1 = 0 ; Counter1 < Counter ; Counter1++ ) {
+            if ( VariableArray [ Counter1 ] != CurrentNumber ) {
+                DifferentNumbersCounter = DifferentNumbersCounter + 1 ;
+            }
+        }
+        if ( DifferentNumbersCounter == Counter ) {
+            VariableArray [ Counter ] = CurrentNumber ;
+            Counter = Counter + 1 ;
+        }
+        else {
+            CurrentNumber = 0 ;
+            printf ( "Same number detected in previous array data, repeat the number...\n" ) ;
+        }
+    return Counter ;
+}
